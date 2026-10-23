@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mouse Over and Focus Events</title>
+
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #eef6ff;
+        transition: background-color 0.3s;
+      }
+
+      .card {
+        width: 90%;
+        max-width: 600px;
+        padding: 25px;
+        background: white;
+        border-radius: 15px;
+        box-shadow: 0 5px 20px #bbb;
+        text-align: center;
+      }
+
+      button {
+        padding: 12px 20px;
+        margin: 10px 5px;
+        border: none;
+        border-radius: 8px;
+        background: #2563eb;
+        color: white;
+        cursor: pointer;
+      }
+
+      button:hover {
+        background: #1d4ed8;
+      }
+
+      input {
+        padding: 10px;
+        width: 90%;
+        margin-top: 15px;
+        box-sizing: border-box;
+      }
+
+      input:focus {
+        outline: 2px solid #2563eb;
+      }
+
+      @media (max-width: 480px) {
+        .card {
+          padding: 18px;
+        }
+
+        button {
+          margin: 8px 2px;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="card">
+      <h2>Home Page Background Effects</h2>
+
+      <button
+        onmouseover="changeBackground('hover')"
+        onmouseleave="changeBackground('reset')"
+      >
+        Mouse Over Event
+      </button>
+
+      <button
+        onfocus="changeBackground('focus')"
+        onblur="changeBackground('reset')"
+      >
+        Focus Event
+      </button>
+
+      <br />
+
+      <input
+        type="text"
+        placeholder="Click here to trigger the focus event"
+        onfocus="changeBackground('focus')"
+        onblur="changeBackground('reset')"
+      />
+
+      <p>
+        Move the mouse over the first button or focus on the second button or
+        input field.
+      </p>
+    </div>
+
+    <script>
+      function changeBackground(type) {
+        if (type === "hover") {
+          document.body.style.backgroundColor = "#dbeafe";
+        } else if (type === "focus") {
+          document.body.style.backgroundColor = "#bfdbfe";
+        } else {
+          document.body.style.backgroundColor = "#eef6ff";
+        }
+      }
+    </script>
+  </body>
+</html>

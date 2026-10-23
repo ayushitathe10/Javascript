@@ -1,0 +1,293 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Experiment 6 - Array Operations</title>
+
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #edf3ed;
+        margin: 0;
+        padding: 25px 15px;
+        color: #333;
+      }
+
+      .container {
+        max-width: 700px;
+        margin: auto;
+        background-color: white;
+        border: 1px solid #cbd8cb;
+        border-radius: 6px;
+        overflow: hidden;
+      }
+
+      .header {
+        background-color: #426b50;
+        color: white;
+        padding: 20px;
+        text-align: center;
+      }
+
+      h1 {
+        margin: 0;
+        font-size: 26px;
+        font-weight: normal;
+      }
+
+      .header p {
+        margin: 8px 0 0;
+        font-size: 14px;
+      }
+
+      .content {
+        padding: 22px;
+      }
+
+      .operations {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 18px;
+      }
+
+      .operation {
+        padding: 15px;
+        border: 1px solid #d7e1d7;
+        background-color: #fafcfa;
+        border-radius: 5px;
+      }
+
+      label {
+        display: block;
+        font-weight: bold;
+        font-size: 14px;
+        margin-bottom: 9px;
+      }
+
+      input {
+        width: 100%;
+        padding: 10px;
+        box-sizing: border-box;
+        border: 1px solid #bfc9bf;
+        border-radius: 3px;
+        font-size: 14px;
+      }
+
+      input:focus {
+        outline: 1px solid #426b50;
+      }
+
+      button {
+        width: 100%;
+        padding: 10px;
+        margin-top: 10px;
+        border: none;
+        border-radius: 3px;
+        background-color: #527e5d;
+        color: white;
+        font-size: 14px;
+        cursor: pointer;
+      }
+
+      button:hover {
+        background-color: #365a40;
+      }
+
+      .empty-btn {
+        background-color: #b94b46;
+      }
+
+      .empty-btn:hover {
+        background-color: #963a36;
+      }
+
+      .output {
+        margin-top: 22px;
+        padding: 16px;
+        background-color: #f3f7f3;
+        border: 1px solid #d1ded1;
+        border-radius: 5px;
+      }
+
+      .output h2 {
+        margin: 0 0 12px;
+        font-size: 18px;
+        color: #426b50;
+      }
+
+      #result {
+        font-size: 14px;
+        line-height: 1.6;
+      }
+
+      #result ul {
+        padding-left: 25px;
+      }
+
+      .footer {
+        text-align: center;
+        padding: 12px;
+        border-top: 1px solid #e0e6e0;
+        color: #777;
+        font-size: 12px;
+      }
+
+      @media (max-width: 520px) {
+        .operations {
+          grid-template-columns: 1fr;
+        }
+
+        .content {
+          padding: 15px;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <div class="header">
+        <h1>Array Operations</h1>
+        <p>Experiment 6 | JavaScript</p>
+      </div>
+
+      <div class="content">
+        <div class="operations">
+          <div class="operation">
+            <label for="arrayInput">Create Array</label>
+            <input
+              type="text"
+              id="arrayInput"
+              placeholder="apple, banana, mango"
+            />
+            <button onclick="createArray()">Create Array</button>
+          </div>
+
+          <div class="operation">
+            <label for="removeValue">Remove Element</label>
+            <input type="text" id="removeValue" placeholder="Enter element" />
+            <button onclick="removeElement()">Remove Element</button>
+          </div>
+
+          <div class="operation">
+            <label for="checkValue">Search Element</label>
+            <input type="text" id="checkValue" placeholder="Enter value" />
+            <button onclick="checkContains()">Check Value</button>
+          </div>
+
+          <div class="operation">
+            <label>Clear All Elements</label>
+            <p style="font-size: 13px; color: #666">
+              Remove all values from the current array.
+            </p>
+            <button class="empty-btn" onclick="emptyArray()">
+              Empty Array
+            </button>
+          </div>
+        </div>
+
+        <div class="output">
+          <h2>Output</h2>
+          <div id="result">No array created yet.</div>
+        </div>
+      </div>
+
+      <div class="footer">Web Technology Practical</div>
+    </div>
+    <script>
+      let myArray = [];
+
+      function createArray() {
+        const input = document.getElementById("arrayInput").value;
+
+        if (input.trim() === "") {
+          showResult("Please enter array values.");
+          return;
+        }
+
+        myArray = input
+          .split(",")
+          .map((item) => item.trim())
+          .filter((item) => item !== "");
+
+        showResult("Array created successfully.");
+      }
+
+      function removeElement() {
+        const value = document.getElementById("removeValue").value.trim();
+
+        if (value === "") {
+          showResult("Enter an element to remove.");
+          return;
+        }
+
+        const index = myArray.findIndex(
+          (item) => item.toLowerCase() === value.toLowerCase(),
+        );
+
+        if (index === -1) {
+          showResult("Element not found.");
+          return;
+        }
+
+        myArray.splice(index, 1);
+        showResult("Element removed successfully.");
+      }
+
+      function checkContains() {
+        const value = document.getElementById("checkValue").value.trim();
+
+        if (value === "") {
+          showResult("Enter a value to search.");
+          return;
+        }
+
+        const found = myArray.some(
+          (item) => item.toLowerCase() === value.toLowerCase(),
+        );
+
+        showResult(
+          found
+            ? value + " exists in the array."
+            : value + " does not exist in the array.",
+        );
+      }
+
+      function emptyArray() {
+        myArray = [];
+        document.getElementById("arrayInput").value = "";
+        showResult("Array emptied successfully.");
+      }
+
+      function showResult(message) {
+        const result = document.getElementById("result");
+        result.replaceChildren();
+
+        const status = document.createElement("p");
+        status.textContent = message;
+        result.appendChild(status);
+
+        const heading = document.createElement("strong");
+        heading.textContent = "Current Array: ";
+        result.appendChild(heading);
+
+        const list = document.createElement("ul");
+
+        myArray.forEach((item) => {
+          const li = document.createElement("li");
+          li.textContent = item;
+          list.appendChild(li);
+        });
+
+        result.appendChild(list);
+
+        if (myArray.length === 0) {
+          const empty = document.createElement("p");
+          empty.textContent = "Array is empty.";
+          result.appendChild(empty);
+        }
+      }
+    </script>
+  </body>
+</html>

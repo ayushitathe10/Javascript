@@ -1,0 +1,319 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Experiment 7 - Arrays and Array Objects</title>
+
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        min-height: 100vh;
+        background: #edf3ed;
+        color: #333;
+      }
+
+      .container {
+        max-width: 700px;
+        margin: 25px auto;
+        background: white;
+        border: 1px solid #cbd8cb;
+        border-radius: 6px;
+        overflow: hidden;
+      }
+
+      .header {
+        background: #426b50;
+        color: white;
+        padding: 20px;
+        text-align: center;
+      }
+
+      h1 {
+        margin: 0;
+        font-size: 26px;
+        font-weight: normal;
+      }
+
+      .header p {
+        margin: 8px 0 0;
+        font-size: 14px;
+      }
+
+      .content {
+        padding: 22px;
+      }
+
+      .operations {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 18px;
+      }
+
+      .operation {
+        padding: 15px;
+        border: 1px solid #d7e1d7;
+        background: #fafcfa;
+        border-radius: 5px;
+      }
+
+      label {
+        display: block;
+        margin: 5px 0 10px;
+        font-size: 14px;
+        font-weight: bold;
+      }
+
+      input {
+        width: 100%;
+        box-sizing: border-box;
+        padding: 10px;
+        border: 1px solid #bfc9bf;
+        border-radius: 3px;
+        font-size: 14px;
+      }
+
+      input:focus {
+        outline: 1px solid #426b50;
+      }
+
+      button {
+        width: 100%;
+        box-sizing: border-box;
+        padding: 10px;
+        margin-top: 10px;
+        background: #527e5d;
+        color: white;
+        border: none;
+        border-radius: 3px;
+        font-size: 14px;
+        cursor: pointer;
+      }
+
+      button:hover {
+        background: #365a40;
+      }
+
+      .info-box {
+        margin-top: 20px;
+        padding: 12px;
+        background: #f0f5f0;
+        border: 1px solid #d1ded1;
+        border-radius: 4px;
+        font-size: 13px;
+        line-height: 1.5;
+      }
+
+      .result {
+        margin-top: 22px;
+        padding: 16px;
+        background: #f3f7f3;
+        border: 1px solid #d1ded1;
+        border-radius: 5px;
+        overflow-wrap: anywhere;
+      }
+
+      .result h2 {
+        margin: 0 0 12px;
+        font-size: 18px;
+        font-weight: normal;
+        color: #426b50;
+      }
+
+      .result ul {
+        padding-left: 25px;
+      }
+
+      .result li {
+        margin-bottom: 10px;
+        line-height: 1.5;
+        overflow-wrap: anywhere;
+      }
+
+      .footer {
+        text-align: center;
+        padding: 12px;
+        border-top: 1px solid #e0e6e0;
+        color: #777;
+        font-size: 12px;
+      }
+
+      @media (max-width: 520px) {
+        .operations {
+          grid-template-columns: 1fr;
+        }
+
+        .content {
+          padding: 15px;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <div class="header">
+        <h1>Arrays and Array Objects</h1>
+        <p>Experiment 7 | JavaScript</p>
+      </div>
+
+      <div class="content">
+        <div class="operations">
+          <div class="operation">
+            <label for="arrayInput"> Enter array values: </label>
+
+            <input
+              type="text"
+              id="arrayInput"
+              placeholder='10, "hello", true, [1,2,3]'
+            />
+
+            <button onclick="createArray()">Create Array</button>
+          </div>
+
+          <div class="operation">
+            <label for="objectInput">
+              Enter an object or array to append:
+            </label>
+
+            <input
+              type="text"
+              id="objectInput"
+              placeholder='{"name":"Ayushi"} or [1,2,3]'
+            />
+
+            <button onclick="appendObject()">Append Object</button>
+          </div>
+        </div>
+
+        <div class="info-box">
+          Enter comma-separated values using valid JSON syntax. Strings need
+          double quotes. Numbers, Booleans, arrays, objects and null are also
+          supported.
+        </div>
+
+        <div id="result" class="result">
+          <h2>Output</h2>
+          No array created yet.
+        </div>
+      </div>
+
+      <div class="footer">Web Technology Practical</div>
+    </div>
+
+    <script>
+      let myArray = [];
+
+      // Create an array with different data types
+      function createArray() {
+        const input = document.getElementById("arrayInput").value.trim();
+
+        if (input === "") {
+          myArray = [];
+          updateDisplay("Please enter array values.");
+          return;
+        }
+
+        try {
+          myArray = JSON.parse("[" + input + "]");
+          updateDisplay("Array created successfully.");
+        } catch (error) {
+          updateDisplay('Invalid input. Example: 10, "hello", true, [1,2,3]');
+        }
+      }
+
+      // Append an object or array
+      function appendObject() {
+        const input = document.getElementById("objectInput").value.trim();
+
+        if (input === "") {
+          updateDisplay("Please enter an object or array.");
+          return;
+        }
+
+        let parsedValue;
+
+        try {
+          parsedValue = JSON.parse(input);
+        } catch (error) {
+          updateDisplay('Invalid JSON. Use {"name":"Ayushi"} or [1,2,3].');
+          return;
+        }
+
+        if (parsedValue === null || typeof parsedValue !== "object") {
+          updateDisplay("Please enter a valid object or array.");
+          return;
+        }
+
+        myArray.push(parsedValue);
+        updateDisplay("Value appended successfully.");
+      }
+
+      // Identify the actual data type
+      function getType(item) {
+        if (Array.isArray(item)) {
+          return "Array";
+        }
+
+        if (item === null) {
+          return "Null";
+        }
+
+        if (typeof item === "object") {
+          return "Object";
+        }
+
+        const type = typeof item;
+
+        return type.charAt(0).toUpperCase() + type.slice(1);
+      }
+
+      // Display values and their data types
+      function updateDisplay(message = "") {
+        const result = document.getElementById("result");
+        result.replaceChildren();
+
+        const heading = document.createElement("h2");
+        heading.textContent = "Output";
+        result.appendChild(heading);
+
+        const status = document.createElement("p");
+        status.textContent = message;
+        result.appendChild(status);
+
+        const arrayHeading = document.createElement("strong");
+        arrayHeading.textContent = "Current Array:";
+        result.appendChild(arrayHeading);
+
+        const list = document.createElement("ul");
+
+        myArray.forEach((item, index) => {
+          const li = document.createElement("li");
+
+          li.textContent =
+            "Index " +
+            index +
+            " | Value: " +
+            JSON.stringify(item) +
+            " | Type: " +
+            getType(item);
+
+          list.appendChild(li);
+        });
+
+        result.appendChild(list);
+
+        const length = document.createElement("p");
+        length.textContent = "Array Length: " + myArray.length;
+        result.appendChild(length);
+
+        if (myArray.length === 0) {
+          const empty = document.createElement("p");
+          empty.textContent = "Array is empty.";
+          result.appendChild(empty);
+        }
+      }
+    </script>
+  </body>
+</html>
