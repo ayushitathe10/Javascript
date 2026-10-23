@@ -1,0 +1,73 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Compare Strings</title>
+  </head>
+  <body>
+    <h2>Compare Two Strings</h2>
+
+    Enter First String:
+    <input type="text" id="str1" /><br /><br />
+
+    Enter Second String:
+    <input type="text" id="str2" /><br /><br />
+
+    <button onclick="equalCompare()">=== Compare</button>
+    <button onclick="localeCompareString()">Locale Compare</button>
+    <button onclick="lengthCompare()">Length Compare</button>
+
+    <p id="result"></p>
+
+    <script>
+      // Compare strings using ===
+      function equalCompare() {
+        let str1 = document.getElementById("str1").value;
+        let str2 = document.getElementById("str2").value;
+
+        if (str1 === str2) {
+          document.getElementById("result").innerHTML =
+            "Both Strings are Equal";
+        } else {
+          document.getElementById("result").innerHTML =
+            "Both Strings are Not Equal";
+        }
+      }
+
+      // Compare strings using localeCompare()
+      function localeCompareString() {
+        let str1 = document.getElementById("str1").value;
+        let str2 = document.getElementById("str2").value;
+
+        let ans = str1.localeCompare(str2);
+
+        if (ans == 0) {
+          document.getElementById("result").innerHTML =
+            "Both Strings are Equal";
+        } else if (ans < 0) {
+          document.getElementById("result").innerHTML =
+            str1 + " comes before " + str2;
+        } else {
+          document.getElementById("result").innerHTML =
+            str1 + " comes after " + str2;
+        }
+      }
+
+      // Compare string lengths
+      function lengthCompare() {
+        let str1 = document.getElementById("str1").value;
+        let str2 = document.getElementById("str2").value;
+
+        if (str1.length == str2.length) {
+          document.getElementById("result").innerHTML =
+            "Both Strings have Same Length";
+        } else if (str1.length > str2.length) {
+          document.getElementById("result").innerHTML =
+            "First String is Longer";
+        } else {
+          document.getElementById("result").innerHTML =
+            "Second String is Longer";
+        }
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,40 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Multiplication Table</title>
+  </head>
+  <body>
+    <h2>Multiplication Table</h2>
+
+    Enter Number:
+    <input type="number" id="num" /><br /><br />
+
+    Enter Range:
+    <input type="number" id="range" /><br /><br />
+
+    <button onclick="getValue()">Generate Table</button>
+
+    <p id="result"></p>
+
+    <script>
+      function getValue() {
+        let num = Number(document.getElementById("num").value);
+        let range = Number(document.getElementById("range").value);
+
+        let table = "";
+
+        if (num < 0) {
+          document.getElementById("result").innerHTML =
+            "Negative numbers are not allowed";
+          return;
+        }
+
+        for (let i = 1; i <= range; i++) {
+          table = table + num + " x " + i + " = " + num * i + "<br>";
+        }
+
+        document.getElementById("result").innerHTML = table;
+      }
+    </script>
+  </body>
+</html>

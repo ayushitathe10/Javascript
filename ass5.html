@@ -1,0 +1,61 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Countdown Timer</title>
+  </head>
+  <body>
+    <h2>Countdown Timer</h2>
+
+    Enter Future Date and Time:
+    <input type="datetime-local" id="future" /><br /><br />
+
+    <button onclick="startTimer()">Start Timer</button>
+
+    <h3 id="result"></h3>
+
+    <script>
+      let timer;
+
+      function startTimer() {
+        clearInterval(timer);
+
+        let future = new Date(document.getElementById("future").value);
+
+        timer = setInterval(countDown, 1000);
+
+        function countDown() {
+          let today = new Date();
+          let diff = future - today;
+
+          if (diff <= 0) {
+            clearInterval(timer);
+            document.getElementById("result").innerHTML = "Time Over";
+            return;
+          }
+
+          let days = Math.floor(diff / (1000 * 60 * 60 * 24));
+
+          let hours = Math.floor(
+            (diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60),
+          );
+
+          let minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+
+          let seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+          document.getElementById("result").innerHTML =
+            days +
+            " Days " +
+            hours +
+            " Hours " +
+            minutes +
+            " Minutes " +
+            seconds +
+            " Seconds";
+        }
+
+        countDown();
+      }
+    </script>
+  </body>
+</html>

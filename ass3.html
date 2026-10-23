@@ -1,0 +1,74 @@
+<!doctype html>
+<html>
+  <head>
+    <title>String Operations</title>
+  </head>
+  <body>
+    <h2>String Operations</h2>
+
+    Enter String:
+    <input type="text" id="str" /><br /><br />
+
+    Character to Replace:
+    <input type="text" id="old" maxlength="1" /><br /><br />
+
+    New Character:
+    <input type="text" id="new" maxlength="1" /><br /><br />
+
+    <button onclick="reverseString()">Reverse String</button>
+    <button onclick="replaceString()">Replace Character</button>
+    <button onclick="palindrome()">Check Palindrome</button>
+
+    <p id="result"></p>
+
+    <script>
+      // Reverse String
+      function reverseString() {
+        let str = document.getElementById("str").value;
+        let rev = "";
+
+        for (let i = str.length - 1; i >= 0; i--) {
+          rev = rev + str[i];
+        }
+
+        document.getElementById("result").innerHTML = "Reverse String: " + rev;
+      }
+
+      // Replace Character
+      function replaceString() {
+        let str = document.getElementById("str").value;
+        let oldChar = document.getElementById("old").value;
+        let newChar = document.getElementById("new").value;
+
+        let ans = "";
+
+        for (let i = 0; i < str.length; i++) {
+          if (str[i] == oldChar) {
+            ans = ans + newChar;
+          } else {
+            ans = ans + str[i];
+          }
+        }
+
+        document.getElementById("result").innerHTML = "New String: " + ans;
+      }
+
+      // Check Palindrome
+      function palindrome() {
+        let str = document.getElementById("str").value;
+        let rev = "";
+
+        for (let i = str.length - 1; i >= 0; i--) {
+          rev = rev + str[i];
+        }
+
+        if (str == rev) {
+          document.getElementById("result").innerHTML = "String is Palindrome";
+        } else {
+          document.getElementById("result").innerHTML =
+            "String is Not Palindrome";
+        }
+      }
+    </script>
+  </body>
+</html>
