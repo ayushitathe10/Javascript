@@ -1,295 +1,252 @@
-<!doctype html>
-<html lang="en">
+<!--<!doctype html>
+<html>
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Experiment 9 - Student Information Form</title>
-
-    <style>
-      body {
-        font-family: Arial, sans-serif;
-        background-color: #f2f2f2;
-        margin: 0;
-        padding: 30px;
-      }
-
-      .container {
-        max-width: 500px;
-        margin: auto;
-        background: white;
-        padding: 25px;
-        border-radius: 10px;
-        box-shadow: 0 0 10px gray;
-      }
-
-      h1 {
-        text-align: center;
-        color: #333;
-      }
-
-      .info {
-        text-align: center;
-        margin-bottom: 20px;
-        color: #555;
-      }
-
-      label {
-        display: block;
-        margin-top: 12px;
-        font-weight: bold;
-      }
-
-      input,
-      select,
-      textarea {
-        width: 100%;
-        padding: 9px;
-        margin-top: 5px;
-        box-sizing: border-box;
-        border: 1px solid #aaa;
-        border-radius: 5px;
-      }
-
-      textarea {
-        height: 70px;
-        resize: vertical;
-      }
-
-      button {
-        width: 100%;
-        padding: 12px;
-        margin-top: 20px;
-        background-color: #333;
-        color: white;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-        font-size: 16px;
-      }
-
-      button:hover {
-        background-color: #555;
-      }
-
-      .success-container {
-        max-width: 600px;
-        margin: 30px auto;
-        padding: 25px;
-        background: white;
-        border-radius: 10px;
-        box-shadow: 0 0 10px #ccc;
-      }
-
-      .success-container h1 {
-        color: #2f63a7;
-      }
-
-      .success-container table {
-        width: 100%;
-        border-collapse: collapse;
-        margin-top: 20px;
-      }
-
-      .success-container th,
-      .success-container td {
-        border: 1px solid #ddd;
-        padding: 12px;
-        text-align: left;
-        overflow-wrap: anywhere;
-      }
-
-      .success-container th {
-        background: #eaf4ff;
-      }
-    </style>
+    <title>Student Registration Form</title>
   </head>
 
   <body>
-    <div class="container" id="formContainer">
-      <h1>Student Information Form</h1>
+    <div id="mainContainer">
+      <h2>Student Registration</h2>
 
-      <form id="studentForm" onsubmit="return validateForm();">
-        <label for="name">Full Name:</label>
-        <input type="text" id="name" placeholder="Enter your name" />
+      <form
+        id="studentForm"
+        onsubmit="return validateForm();"
+        onreset="clearError()"
+      >
+        Full Name:
+        <input type="text" id="name" required />
+        <br /><br />
 
-        <label for="address">Address:</label>
-        <textarea id="address" placeholder="Enter your address"></textarea>
+        City:
+        <input type="text" id="city" required />
+        <br /><br />
 
-        <label for="city">City:</label>
-        <input type="text" id="city" placeholder="Enter your city" />
+        State:
+        <input type="text" id="state" required />
+        <br /><br />
 
-        <label for="state">State:</label>
-        <input type="text" id="state" placeholder="Enter your state" />
+        Pin Code:
+        <input type="text" id="pin" maxlength="6" required />
+        <br /><br />
 
-        <label for="gender">Gender:</label>
-        <select id="gender">
+        Gender:
+        <select id="gender" required>
           <option value="">Select Gender</option>
           <option value="Male">Male</option>
           <option value="Female">Female</option>
           <option value="Other">Other</option>
         </select>
+        <br /><br />
 
-        <label for="mobile">Mobile Number:</label>
-        <input
-          type="text"
-          id="mobile"
-          placeholder="Enter 10 digit mobile number"
-          maxlength="10"
-        />
+        Mobile Number:
+        <input type="text" id="mobile" maxlength="10" required />
+        <br /><br />
 
-        <label for="email">Email:</label>
-        <input type="text" id="email" placeholder="Enter your email" />
+        Email ID:
+        <input type="email" id="email" required />
+        <br /><br />
+
+        <p id="error"></p>
 
         <button type="submit">Submit</button>
+        <button type="reset">Reset</button>
       </form>
     </div>
 
     <script>
       function validateForm() {
-        // Get entered values
-        const name = document.getElementById("name").value.trim();
-        const address = document.getElementById("address").value.trim();
-        const city = document.getElementById("city").value.trim();
-        const state = document.getElementById("state").value.trim();
-        const gender = document.getElementById("gender").value;
-        const mobile = document.getElementById("mobile").value.trim();
-        const email = document.getElementById("email").value.trim();
+        let name = document.getElementById("name").value.trim();
+        let city = document.getElementById("city").value.trim();
+        let state = document.getElementById("state").value.trim();
+        let pin = document.getElementById("pin").value.trim();
+        let mobile = document.getElementById("mobile").value.trim();
+        let email = document.getElementById("email").value.trim();
 
-        // Regular expressions
-        const namePattern = /^[a-zA-Z\s]+$/;
-        const addressPattern = /^[a-zA-Z0-9\s,./#-]+$/;
-        const cityStatePattern = /^[a-zA-Z\s]+$/;
-        const mobilePattern = /^[0-9]{10}$/;
-        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        let error = document.getElementById("error");
 
-        // Check empty fields
-        if (
-          name === "" ||
-          address === "" ||
-          city === "" ||
-          state === "" ||
-          gender === "" ||
-          mobile === "" ||
-          email === ""
-        ) {
-          alert("Please fill in all the fields.");
+        error.innerHTML = "";
+
+        if (!/^[a-zA-Z\s]+$/.test(name)) {
+          error.innerHTML = "Enter a valid name.";
           return false;
         }
 
-        // Validate name
-        if (!namePattern.test(name)) {
-          alert("Please enter a valid name.");
+        if (!/^[a-zA-Z\s]+$/.test(city)) {
+          error.innerHTML = "Enter a valid city.";
           return false;
         }
 
-        // Validate address
-        if (!addressPattern.test(address)) {
-          alert("Please enter a valid address.");
+        if (!/^[a-zA-Z\s]+$/.test(state)) {
+          error.innerHTML = "Enter a valid state.";
           return false;
         }
 
-        // Validate city
-        if (!cityStatePattern.test(city)) {
-          alert("Please enter a valid city.");
+        if (!/^[0-9]{6}$/.test(pin)) {
+          error.innerHTML = "Enter a valid 6-digit PIN code.";
           return false;
         }
 
-        // Validate state
-        if (!cityStatePattern.test(state)) {
-          alert("Please enter a valid state.");
+        if (!/^[6-9][0-9]{9}$/.test(mobile)) {
+          error.innerHTML = "Enter a valid 10-digit mobile number.";
           return false;
         }
 
-        // Validate mobile number
-        if (!mobilePattern.test(mobile)) {
-          alert("Mobile number must contain exactly 10 digits.");
+        if (!/^[a-zA-Z0-9._%+-]+@(gmail|yahoo|hotmail)\.com$/i.test(email)) {
+          error.innerHTML = "Enter a valid Gmail, Yahoo or Hotmail ID.";
           return false;
         }
 
-        // Validate email
-        if (!emailPattern.test(email)) {
-          alert("Please enter a valid email address.");
-          return false;
-        }
-
-        // All validations passed
-        showSuccessPage(name, address, city, state, gender, mobile, email);
+        document.getElementById("mainContainer").innerHTML =
+          "<h2>Congratulations!</h2>" +
+          "<p>Your information has been validated successfully.</p>" +
+          "<button onclick='location.reload()'>Go Back</button>";
 
         return false;
       }
 
-      function showSuccessPage(
-        name,
-        address,
-        city,
-        state,
-        gender,
-        mobile,
-        email,
-      ) {
-        const details = [
-          ["Full Name", name],
-          ["Address", address],
-          ["City", city],
-          ["State", state],
-          ["Gender", gender],
-          ["Mobile Number", mobile],
-          ["Email", email],
-        ];
+      function clearError() {
+        document.getElementById("error").innerHTML = "";
+      }
+    </script>
+  </body>
+</html>
+-->
 
-        // Create the success page
-        document.body.replaceChildren();
+<!doctype html>
+<html>
+  <head>
+    <title>Student Registration Form</title>
+  </head>
 
-        const container = document.createElement("div");
-        container.className = "success-container";
+  <body>
+    <div id="mainContainer">
+      <h2>Student Registration</h2>
 
-        const heading = document.createElement("h1");
-        heading.textContent = "Congratulations!";
-        container.appendChild(heading);
+      <form onsubmit="return validateForm();" onreset="clearError()">
+        Full Name:
+        <input type="text" id="name" required />
+        <br /><br />
 
-        const welcome = document.createElement("h2");
-        welcome.textContent = "Welcome, " + name + "!";
-        container.appendChild(welcome);
+        City:
+        <input type="text" id="city" required />
+        <br /><br />
 
-        const message = document.createElement("p");
-        message.textContent =
-          "Your student information has been submitted successfully.";
-        container.appendChild(message);
+        State:
+        <input type="text" id="state" required />
+        <br /><br />
 
-        const subheading = document.createElement("h3");
-        subheading.textContent = "Submitted Student Details";
-        container.appendChild(subheading);
+        Pin Code:
+        <input type="text" id="pin" maxlength="6" required />
+        <br /><br />
 
-        const table = document.createElement("table");
+        Gender:
+        <select id="gender" required>
+          <option value="">Select Gender</option>
+          <option value="Male">Male</option>
+          <option value="Female">Female</option>
+          <option value="Other">Other</option>
+        </select>
+        <br /><br />
 
-        const header = document.createElement("tr");
+        Mobile Number:
+        <input type="text" id="mobile" maxlength="10" required />
+        <br /><br />
 
-        const fieldHeader = document.createElement("th");
-        fieldHeader.textContent = "Field";
-        header.appendChild(fieldHeader);
+        Email ID:
+        <input type="email" id="email" required />
+        <br /><br />
 
-        const valueHeader = document.createElement("th");
-        valueHeader.textContent = "Details";
-        header.appendChild(valueHeader);
+        <p id="error"></p>
 
-        table.appendChild(header);
+        <button type="submit">Submit</button>
+        <button type="reset">Reset</button>
+      </form>
+    </div>
 
-        details.forEach(function (item) {
-          const row = document.createElement("tr");
+    <script>
+      function validateForm() {
+        let name = document.getElementById("name").value.trim();
+        let city = document.getElementById("city").value.trim();
+        let state = document.getElementById("state").value.trim();
+        let pin = document.getElementById("pin").value.trim();
+        let gender = document.getElementById("gender").value;
+        let mobile = document.getElementById("mobile").value.trim();
+        let email = document.getElementById("email").value.trim();
 
-          const field = document.createElement("td");
-          field.textContent = item[0];
+        let error = document.getElementById("error");
 
-          const value = document.createElement("td");
-          value.textContent = item[1];
+        error.innerHTML = "";
 
-          row.appendChild(field);
-          row.appendChild(value);
-          table.appendChild(row);
-        });
+        if (!/^[a-zA-Z\s]+$/.test(name)) {
+          error.innerHTML = "Enter a valid name.";
+          return false;
+        }
 
-        container.appendChild(table);
-        document.body.appendChild(container);
+        if (!/^[a-zA-Z\s]+$/.test(city)) {
+          error.innerHTML = "Enter a valid city.";
+          return false;
+        }
+
+        if (!/^[a-zA-Z\s]+$/.test(state)) {
+          error.innerHTML = "Enter a valid state.";
+          return false;
+        }
+
+        if (!/^[0-9]{6}$/.test(pin)) {
+          error.innerHTML = "Enter a valid 6-digit PIN code.";
+          return false;
+        }
+
+        if (!/^[6-9][0-9]{9}$/.test(mobile)) {
+          error.innerHTML = "Enter a valid 10-digit mobile number.";
+          return false;
+        }
+
+        if (!/^[a-zA-Z0-9._%+-]+@(gmail|yahoo|hotmail)\.com$/i.test(email)) {
+          error.innerHTML = "Enter a valid Gmail, Yahoo or Hotmail ID.";
+          return false;
+        }
+
+        // Store student details
+        let details =
+          "<h2>Congratulations!</h2>" +
+          "<p>Your information has been submitted successfully.</p>" +
+          "<h3>Student Details</h3>" +
+          //-------------------------------------
+          "<table border='1' cellpadding='10'>" +
+          "<tr><th>Field</th><th>Details</th></tr>" +
+          "<tr><td>Full Name</td><td>" +
+          name +
+          "</td></tr>" +
+          "<tr><td>City</td><td>" +
+          city +
+          "</td></tr>" +
+          "<tr><td>State</td><td>" +
+          state +
+          "</td></tr>" +
+          "<tr><td>Pin Code</td><td>" +
+          pin +
+          "</td></tr>" +
+          "<tr><td>Gender</td><td>" +
+          gender +
+          "</td></tr>" +
+          "<tr><td>Mobile Number</td><td>" +
+          mobile +
+          "</td></tr>" +
+          "<tr><td>Email ID</td><td>" +
+          email +
+          "</td></tr>" +
+          "</table>" +
+          "<br><button onclick='location.reload()'>Go Back</button>";
+
+        // Display success page
+        document.getElementById("mainContainer").innerHTML = details;
+
+        return false;
+      }
+
+      function clearError() {
+        document.getElementById("error").innerHTML = "";
       }
     </script>
   </body>
